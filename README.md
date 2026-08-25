@@ -238,3 +238,5 @@ browser.proxy.settings.set({ value: proxySettings }, () => console.log("Proxy se
 
 ---
 *Report Compilation and Threat Analysis verified via code review guidelines.*
+
+## We're going to hunt for more malicious "VPNS" and post our report here, be sure to star this project to see more vpns to avoid.
