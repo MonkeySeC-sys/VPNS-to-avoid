@@ -16,13 +16,8 @@ All examinations were performed natively using static code review techniques and
 4. **Case Study 04: Enter VPN** (Verdict: CRITICAL THREAT / INFORMATION STEALER ENGINE)
 5. Case Study 05: ZoogVPN — Free VPN for Chrome & Proxy (Verdict: Deceptive / Claiming to be a no-log vpn)
 6. Case Study 05: GoVPN — Free VPN for Chrome (Verdict: Monitoring Centralization / Data Harvesting)
-# 📁 case study 07: techvpn
+7. Case Study 07: TechVPN (Verdict: Deceptive / Advanced Decentralized C2 Resilience Layer)
 
-### 📌 metadata
-* **extension name:** techvpn
-* **target c2 infrastructure:** techvpn.cloud / doh.techvpn.cloud
-* **platform:** gecko add-on infrastructure (manifest v3 architecture)
-* **status:** 🟡 deceptive / advanced decentralized c2 resilience layer
 
 ---
 
