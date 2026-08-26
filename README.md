@@ -237,6 +237,130 @@ browser.proxy.settings.set({ value: proxySettings }, () => console.log("Proxy se
 * **Local Identity Cache Keys:** `apiProxies`, `serverCredentials`, `proxyActive`
 
 ---
+
+# 📁 Case Study 05: ZoogVPN — Free VPN for Chrome & Proxy
+
+### 📌 Metadata
+* **Extension Name:** ZoogVPN — Free VPN for Chrome & Proxy
+* **Extension ID:** `immngomjofcbflgcckkfddnbpmjokbjh`
+* **Platform:** Chromium & Gecko Marketplaces (Manifest V3 Architecture)
+* **Status:** 🟡 DECEPTIVE / LATENT HIGH-RISK ASSET
+
+### 🚨 The Enterprise Privacy
+This extension represents an enterprise-grade commercial utility that requests an incredibly expansive Manifest V3 platform profile, completely contradicting its public "strict zero-logs" marketing assurances:
+```json
+"permissions": [
+  "proxy", "tabs", "webRequest", "webRequestAuthProvider", 
+  "offscreen", "browsingData", "storage", "management", "alarms"
+],
+"host_permissions": [ "http://*/*", "https://*/*" ]
+```
+
+#### Technical Impact:
+* **`host_permissions`:** Bypasses basic runtime constraints by enforcing mandatory, blanket authority to intercept network packets on any website immediately upon installation without requiring user opt-in consent.
+* **`offscreen`:** Quietly spawns an invisible background DOM wrapper (`offscreen.html`) providing a silent sandboxed context to execute hidden script manipulation pipelines.
+
+---
+
+### 🔍 Technical Code Deep-Dive
+
+#### 1. Latent Clickstream Harvesting Engine
+Static analysis of the client orchestration scripts unmasked a dormant background tracking daemon built directly into the codebase:
+
+```javascript
+function runClickStream() {
+    const reportUrlChange = () => {
+        chrome.runtime.sendMessage({
+            type: "clickstream-event",
+            payload: {
+                timestamp: new Date().toISOString(),
+                url: location.href,
+                referer: document.referrer || undefined,
+                user_agent: navigator.userAgent,
+            }
+        });
+    };
+}
+```
+
+* **Analysis:** The codebase contains a fully constructed user surveillance routine designed to intercept the exact website address (`location.href`) and register the previous jumping point site map (`document.referrer`) on every page change. While the matching background receiver loop (`clickstream-event`) is currently unlinked or dormant in this specific version, leaving weaponized traffic logging modules latent in production software poses a severe deceptive risk, as the capability can be activated remotely via C2 updates.
+
+#### 2. Multi-Layered Connection and Offscreen Orchestration
+The offscreen environment leverages standard web workers to defensively check connection boundaries and prevent network leaks while masking its background footprints:
+
+```javascript
+async function check_ip() {
+    const result = await fetchWithTimeout("https://ipify.org", {
+        method: "GET",
+        retry: 3,
+        timeout: 8000,
+    });
+}
+```
+
+* **Analysis:** The extension leverages `Reason.IFRAME_SCRIPTING` parameters inside `offscreen.js` to split its network validation layers across parallel background workers (`web_worker.js`). These automated lookup loops target public nodes (`api.ipify.org`) out of view of standard runtime performance tools, masking the true extent of background telemetry events passing through the infrastructure.
+
+---
+
+### 🛡️ Indicators of Control (IoCs)
+* **Latent Telemetry Signature:** `runClickStream` / `clickstream-event`
+* **Local Identity Cache Blocks:** `exclusionLinks`, `apiProxies`, `proxyAuth`
+* **Network Testing Target Vectors:** Automated lookups targeting `api.ipify.org`.
+
+---
+
+# 📁 Case Study 05: GoVPN — Free VPN for Chrome
+
+### 📌 Metadata
+* **Extension Name:** GoVPN — Free VPN for Chrome
+* **Extension ID:** `bfihjamebcnkfeihibbninalkkffoebd`
+* **Platform:** Chromium Marketplace (Manifest V3 Framework)
+* **Status:** 🔴 ACTIVE THREAT / HARDCODED CREDENTIAL LEAK
+
+### 🚨 Comprehensive Overprivileged Interception
+This extension requests a highly aggressive required permission footprint that grants total, un-sandboxed control over the host browser immediately upon installation:
+```json
+"permissions": [
+  "proxy", "storage", "webRequest", "webRequestAuthProvider", "alarms"
+],
+"host_permissions": [ "<all_urls>" ]
+```
+
+#### Technical Impact:
+By locking `<all_urls>` into the mandatory `host_permissions` block under Manifest V3, the tool avoids the modern user-consent opt-in prompt framework completely. Combined with `webRequest` and `webRequestAuthProvider`, the extension gains the structural capacity to establish an invisible, persistent Man-in-the-Middle (MitM) traffic capturing plane directly on the browser's raw network socket layer.
+
+---
+
+### 🔍 Technical Code Deep-Dive
+
+#### 1. Hardcoded Infrastructure Configuration & Plaintext Credentials
+Static analysis of the primary service worker (`background.js`) unmasked explicit default connection profiles and plaintext infrastructure passwords exposed directly within the production script files:
+
+```javascript
+const DEFAULT_PROXY_CONFIG = { 
+    host: '68.183.219.56', 
+    port: 31280, 
+    username: 'govpn', 
+    password: 'SecureProxy2024!' 
+};
+```
+
+* **Analysis:** Leaving active authentication keys visible in public client-side scripts is a major architectural vulnerability (CWE-798). It allows any malicious actor to extract the credentials, bypass the extension wrapper entirely, and utilize the provider's proxy nodes for anonymous, rogue, or high-risk network activities. 
+* **The Shared Identity Paradox:** Because the application enforces a single, global hardcoded credential set (`govpn` / `SecureProxy2024!`) across all active installations, individual client sessions are completely indistinguishable at the server gateway layer. This configuration shatters the developer's public marketplace assertions of a strict *"No activity logs and no data collection"* privacy policy, as it drops global traffic profiles into a unified, un-sandboxed server repository block.
+
+---
+
+### 🛡️ Indicators of Compromise (IoCs)
+* **Default Proxy Node IP Address:** `68.183.219.56`
+* **Infrastructure Operational Port:** `31280`
+* **Exposed Connection Credentials:** `govpn` / `SecureProxy2024!`
+* **Global Interception Target Map:** `["<all_urls>"]` via background network listener loops.
+
+
+
+
+
+---
 *Report Compilation and Threat Analysis verified via code review guidelines.*
 
 ## We're going to hunt for more malicious "VPNS" and post our report here, be sure to star this project to see more vpns to avoid.
