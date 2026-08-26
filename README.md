@@ -1,5 +1,6 @@
 # Malicious VPN & Proxy Browser Extension Threat Intelligence Portfolio
-# Make sure to star this repo as we are actively hunting these threats and updating. 
+# Make sure to star this repo as we are actively hunting these threats and updating.
+# If you found a suspicious extension and want it added to our list email us at MonkeySeC-SyS@protonmail.com, we'll look at the code and determine if its malware or not. 
 **Disclaimer:** *The case studies and code reviews compiled in this repository are maintained strictly for educational, security research, and defensive threat intelligence purposes. This documentation is intended to help the cybersecurity community analyze, identify, and defend against deceptive browser extension architectures. No weaponized binaries are hosted within this project.*
 
 Welcome to our cybersecurity research repository. This portfolio details the comprehensive static code analysis, de-obfuscation, and architectural auditing of browser-based VPN and Proxy extensions. This index documents the systematic teardown of tools that utilize fraudulent marketplace listings, hidden Command and Control (C2) servers, encryption-degradation vectors, and covert data-harvesting mechanisms under the guise of user privacy tools.
