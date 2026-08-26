@@ -360,6 +360,112 @@ const DEFAULT_PROXY_CONFIG = {
 * **Global Interception Target Map:** `["<all_urls>"]` via background network listener loops.
 
 
+---
+
+# 📁 case study 06: zenmate free vpn
+
+### 📌 metadata
+* **extension name:** zenmate free vpn
+* **extension id:** `addon@zenmate.com`
+* **platform:** legacy firefox add-on infrastructure (manifest v2)
+* **status:** 🟡 high residual risk / encapsulated angular engine
+
+### 🚨 legacy full-spectrum privilege aggression
+this extension operates on the legacy manifest v2 framework, securing an absolute interception layout that establishes complete authority over client data streams immediately upon deployment:
+```json
+"permissions": [
+  "*://*/*", "tabs", "webRequest", "privacy", "webRequestBlocking", 
+  "proxy", "unlimitedStorage", "storage", "notifications", "cookies", 
+  "alarms", "browsingData", "webNavigation"
+]
+```
+
+#### technical impact:
+* **`*://*/*` + `webRequestBlocking`:** unlocks absolute, synchronous packet-blocking and request-redirection capabilities across every website on the internet, allowing the tool to freeze requests in flight before the dom renders.
+* **`cookies` + `browsingData`:** provides direct programmatic authorization to read, mutate, or exfiltrate private session cookies and authentication tokens.
+* **`webNavigation`:** establishes granular tracking of client navigation lifecycles, monitoring redirects and frame structures in real time.
+
+---
+
+### 🔍 technical code deep-dive
+
+#### 1. compiled angular & webpack obfuscation architecture
+static analysis of the background execution bundle unmasked an enterprise-grade compilation layer that completely hides standard extension hooks from direct string matching:
+
+```javascript
+a = r([i.Injectable({ providedIn: "root" })], a), 
+t.NotificationService = a }, 
+0: function(e, t, n) { e.exports = n("zUnb") }, 
+"0EUg": function(e, t, n) { ... }
+```
+
+* **analysis:** the extension code is built entirely on the **angular framework** and compiled into modular chunks via **webpack**. direct browser calls like `onBeforeRequest.addListener` disappear from flat file text scans because the entire background engine is abstractly packaged inside dependency-injected services (`injectable`). this design pattern successfully cloaks the raw network-blocking and data-filtering capabilities from basic text-signature scanners while preserving total packet-interception authority across the browser layout.
+
+#### 2. the supply-chain infrastructure paradox
+the brand behind this infrastructure was acquired by kape technologies (formerly crossrider)—an entity historically associated with the development of ad-delivery wrappers and browser-hijacking injection frameworks. while marketed strictly as a "zero logs" utility, leaving legacy `webRequestBlocking` tools, encapsulated framework methods, and global cookie-manipulation engines active creates an immense structural supply-chain hazard.
+
+---
+
+### 🛡️ indicators of control (iocs)
+* **core interception mapping:** global `*://*/*` tracking parameters via blocking hooks.
+* **architecture class:** compiled angular production bundle / webpack module registry (`zUnb`).
+* **data mutation scope:** active storage clearance via `browsingData` and live token reading via `cookies`.
+
+---
+
+# 📁 case study 07: techvpn
+
+### 📌 metadata
+* **extension name:** techvpn
+* **target c2 infrastructure:** techvpn.cloud / doh.techvpn.cloud
+* **platform:** gecko add-on infrastructure (manifest v3 architecture)
+* **status:** 🟡 deceptive / advanced decentralized c2 resilience layer
+
+### 🚨 mandatory surveillance and permission inflation
+this extension presents a severe operational privacy paradox, forcing total device and identity telemetry checking right at baseline initialization while misrepresenting user opt-in boundaries:
+```json
+"permissions": [ "storage", "alarms", "proxy" ],
+"host_permissions": [ 
+  "https://api.techvpn.cloud/*", "https://flagcdn.com*", 
+  "https://*.techvpn.cloud/*", "<all_urls>" 
+]
+```
+
+#### technical impact:
+* **the manifest deception:** despite marketing the tool to marketplace storefronts as utilizing "optional access to website data," the extension secretly hardcodes `<all_urls>` directly inside required mandatory host blocks, automatically bypassing browser sandbox opt-in prompts to claim packet-monitoring control globally.
+* **explicit data harvesting:** the extension framework establishes mandatory tracking protocols targeting `personallyIdentifyingInfo`, `authenticationInfo`, and `locationInfo`. it actively processes and attaches physical geolocation coordinates and personal identity data blocks directly to active routing profiles.
+
+---
+
+### 🔍 technical code deep-dive
+
+#### 1. the webassembly wireguard deception
+the marketing profile states that the extension runs an advanced, military-grade wireguard cryptographic tunnel natively via webassembly. however, static analysis of the runtime permissions reveals a standard proxy implementation footprint.
+
+* **analysis:** the framework requests standard browser `proxy` management control. the inclusion of compiled runtime helpers like `wasm_exec.js` combined with `wasm-unsafe-eval` parameters is utilized to compile basic proxy-shuttle functions into optimized webassembly blocks. this technique makes the background footprint look like an advanced crypto-tunneling project during automated store reviews while executing basic server proxy redirection under the hood.
+
+#### 2. bulletproof c2 resilience via blockchain fallback
+written by turkish-speaking engineers, the core discovery logic (`background/discovery.js`) unmasks a highly sophisticated, 4-stage backup engine designed to completely bypass domain takedowns and perimeter network firewalls using a dynamic priority layout:
+
+```javascript
+// priority order:
+// 1. cache (storage.local, 1 hour ttl)
+// 2. doh query (_endpoints.techvpn.cloud txt record)
+// 3. blockchain read (8+ evm chain + tron, first successful wins)
+// 4. hardcoded fallback (embedded in extension)
+```
+
+* **doh encapsulation:** the engine uses encrypted dns-over-https (doh) endpoints mapping through `1.1.1.1` and `dns.google` to query specific txt records (`_endpoints.techvpn.cloud`) to obtain hidden server assets covertly.
+* **decentralized blockchain routing:** if web-level constraints block the primary domain, the script triggers automated web3 rpc queries targeting decentralization networks including **polygon, bsc, arbitrum, and tron**. it hooks into a custom smart contract via selector **`0x5d7c83f1`** (`getEndpoints()`). because decentralized blockchain smart contract networks cannot be targeted by traditional centralized dns takedowns, the extension maintains an un-killable pipeline to fetch updated proxy tracking infrastructure targets indefinitely.
+
+---
+
+### 🛡️ indicators of control (iocs)
+* **primary c2 discovery domain:** `techvpn.cloud` / `_endpoints.techvpn.cloud`
+* **doh query vectors:** `https://doh.techvpn.cloud/dns-query`
+* **blockchain c2 payload handles:** contract function signature hash `0x5d7c83f1`
+* **decentralized gateway triggers:** `polygon-rpc.com`, `bsc-dataseed1.binance.org`, `arb1.arbitrum.io/rpc`
+* **active telemetry categories:** `locationInfo`, `personallyIdentifyingInfo`
 
 
 
