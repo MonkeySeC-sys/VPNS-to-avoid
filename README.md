@@ -13,6 +13,8 @@ All examinations were performed natively using static code review techniques and
 2. **Case Study 02: Shifor VPN** (Verdict: COMPROMISED ARCHITECTURE / ACTIVE C2 MATRIX)
 3. **Case Study 03: NoProx — VPN & Proxy Service** (Verdict: DECEPTIVE / HIGH EXPOSURE RISK)
 4. **Case Study 04: Enter VPN** (Verdict: CRITICAL THREAT / INFORMATION STEALER ENGINE)
+5. **Case Study 05: ZoogVPN — Free VPN for Chrome & Proxy (Verdict: Deceptive / Claiming to be a no-log vpn)
+6. **Case Study 05: GoVPN — Free VPN for Chrome (Verdict: Monitoring Centralization / Data Harvesting)
 
 ---
 
