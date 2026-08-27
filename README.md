@@ -580,11 +580,15 @@ the application completely avoids the modern manifest v3 optional permissions mo
 
 ---
 
-### 🛡 indicators of compromise (iocs)
-* **primary central control domain:** `circuitvpn.com` / `://circuitvpn.com`
-* **active surveillance signatures:** `login_user_name`, `email`, `EXT_SERVERIP`, `clientUserId`
-* **associated external tracking links:** `tawk.to/chat/652974686fcfe87d54b98d37/*`
-* **operational layout class:** un-sandboxed manifest v2 legacy intercept framework bundle.
+### 🛡---
+
+### 🛡️ indicators of compromise (iocs)
+* **resolved central c2 backend node:** `103.228.168.171`
+* **associated proxy orchestration ip:** `103.228.168.172`
+* **monitored infrastructure domains:** `panel2.stelsvpn.com`, `admin2.stelsvpn.com`, `unitvpn.com`
+* **active network traffic relay:** `puretraffic.ru` / fornex hosting systems.
+* **primary configuration tracking keys:** `f.is_current`, `devices.remove_success`
+
 
 
 ---
