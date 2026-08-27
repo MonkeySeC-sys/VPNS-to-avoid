@@ -580,8 +580,6 @@ the application completely avoids the modern manifest v3 optional permissions mo
 
 ---
 
-### 🛡---
-
 ### 🛡️ indicators of compromise (iocs)
 * **resolved central c2 backend node:** `103.228.168.171`
 * **associated proxy orchestration ip:** `103.228.168.172`
