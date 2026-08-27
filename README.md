@@ -14,11 +14,11 @@ All examinations were performed natively using static code review techniques and
 2. **Case Study 02: Shifor VPN** (Verdict: COMPROMISED ARCHITECTURE / ACTIVE C2)
 3. **Case Study 03: NoProx — VPN & Proxy Service** (Verdict: DECEPTIVE / HIGH EXPOSURE RISK)
 4. **Case Study 04: Enter VPN** (Verdict: CRITICAL THREAT / INFORMATION STEALER ENGINE)
-5. Case Study 05: ZoogVPN — Free VPN for Chrome & Proxy (Verdict: Deceptive / Claiming to be a no-log vpn)
-6. Case Study 05: GoVPN — Free VPN for Chrome (Verdict: Monitoring Centralization / Data Harvesting)
-7. Case Study 07: TechVPN (Verdict: Deceptive / Advanced Decentralized C2 Resilience Layer)
-
-
+5. **Case Study 05: ZoogVPN** — Free VPN for Chrome & Proxy (Verdict: Deceptive / Claiming to be a no-log vpn)
+6. **Case Study 05: GoVPN** — Free VPN for Chrome (Verdict: Monitoring Centralization / Data Harvesting)
+7. **Case Study 07: TechVPN** (Verdict: Deceptive / Advanced Decentralized C2 Resilience Layer)
+8. **Case Study 08: Stels VPN** (verdict: active threat / weaponized device-fingerprinting bot)
+9. **Case Study 09: Circuitvpn** (verdict: active threat / deceptive personal identity harvester)
 ---
 
 # 📁 Case Study 01: 无忧府超级VPN (Wuyoufu Super VPN)
@@ -469,6 +469,122 @@ written by turkish-speaking engineers, the core discovery logic (`background/dis
 * **decentralized gateway triggers:** `polygon-rpc.com`, `bsc-dataseed1.binance.org`, `arb1.arbitrum.io/rpc`
 * **active telemetry categories:** `locationInfo`, `personallyIdentifyingInfo`
 
+---
+
+# 📁 case study 08: stels vpn
+
+### 📌 metadata
+* **extension name:** stels vpn
+* **extension id:** `addon@stelsvpn.com` / hefhpgijkladkcebkdafdpjdmbfgnkhc
+* **target c2 infrastructure:** panel2.stelsvpn.com / admin2.stelsvpn.com / unitvpn.com
+* **platform:** legacy firefox add-on infrastructure (manifest v2 framework)
+* **status:** 🔴 active threat / weaponized device-fingerprinting bot
+
+### 🚨 absolute marketplace permission deception
+this extension represents a severe architectural deception campaign, utilizing extreme metadata mismatches to slip past automated marketplace screening mechanisms:
+```json
+"permissions": [ "storage", "proxy", "webRequest", "webRequestAuthProvider", "webRequestBlocking" ],
+"host_permissions": [ "https://stelsvpn.com*", "<all_urls>" ]
+```
+
+#### technical impact:
+* **the storefront fraud:** the public add-on store listing falsely declares to users that the extension only requires basic "proxy settings" control and explicitly states that the tool "doesn't require data collection."
+* **the required reality:** the production manifest completely overrides user consent by hardcoding mandatory `<all_urls>` host tracking along with legacy `webRequestBlocking` rights. the extension possesses immediate authority to freeze, inspect, and redirect data packets on every website globally from the millisecond it is deployed.
+
+---
+
+### 🔍 technical code deep-dive
+
+#### 1. hardware profiling and device monitoring registry
+static analysis of the internal react hooks unmasked a persistent cloud-synced hardware-fingerprinting module running hidden inside the web worker frameworks:
+
+```javascript
+const z = () => {
+    const { t: s } = x(), { data: t } = y();
+    h = n.useMemo(() => t ? [...t].sort((f, C) => f.is_current && !C.is_current ? -1 : 1) : []);
+    N = n.useCallback(async () => {
+        await a({ id: i.id }).unwrap();
+        k.success(s("devices.remove_success", "Устройство успешно удалено"));
+    });
+}
+```
+
+* **analysis:** the code establishes a persistent hardware-tracking registry. every browser instance that installs the tool is cataloged with a permanent identifier (`id`) and actively monitored via state updates (`is_current`). written with explicit russian error handlers, the extension syncs your machine's profile markers directly back to their cloud databases, functioning effectively as a targeted device monitoring network.
+
+#### 2. obfuscated framework routing and asset mapping
+the developer compiled the extension package using a heavy webpack/vite framework router to intentionally scatter and segment operations across dozens of randomly hashed micro-chunks (e.g., `common-BZ0xadUH.js`, `Devices-C-JUrSJu.js`). 
+
+```javascript
+import { j as a, cW as o } from "./index.html-Dl-wUpAc.js";
+const n = ({ to: s, children: r }) => a.jsx(o, { to: s, draggable: !1 });
+```
+
+* **analysis:** by dynamically remapping core browser intercept handles into abstract dependency injections within the master file chunk (`index.html-Dl-wUpAc.js`), the application successfully evades text-based signature scanners. the underlying api base endpoints are injected via build-time variables, cloaking the connection routes during static local inspections.
+
+---
+
+### 🛡️ indicators of compromise (iocs)
+* **resolved central c2 ip address:** `103.228.168.172`
+* **associated threat infrastructure nodes:** `panel2.stelsvpn.com`, `admin2.stelsvpn.com`, `unitvpn.com`
+* **active traffic relay targets:** `puretraffic.ru` network routing spaces.
+* **primary configuration tracking keys:** `f.is_current`, `devices.remove_success`
+
+---
+
+# 📁 case study 09: circuitvpn
+
+### 📌 metadata
+* **extension name:** secure browsing: circuitvpn
+* **extension id:** `addon@circuitvpn.com`
+* **target c2 infrastructure:** circuitvpn.com / syncologi / ://circuitvpn.com
+* **platform:** legacy firefox add-on infrastructure (manifest v2 framework)
+* **status:** 🔴 active threat / deceptive personal identity harvester
+
+### 🚨 absolute required privilege aggression
+this extension utilizes the obsolete manifest v2 runtime framework to enforce a massive, mandatory interception grid across the user's entire network interface immediately upon deployment:
+```json
+"permissions": [ 
+  "tabs", "<all_urls>", "privacy", "webRequest", "webRequestBlocking", 
+  "webNavigation", "proxy", "storage", "cookies", "management", "notifications" 
+]
+```
+
+#### technical impact:
+* **`"<all_urls>"` + `"webRequestBlocking"`:** establishes a permanent, synchronous man-in-the-middle (mitm) traffic interception channel. the extension has absolute authority to freeze network packets in flight, extract data strings, and strip security policies across every site globally.
+* **`"cookies"` + `"management"`:** grants direct programmatic rights to query, harvest, and alter active session authentication cookies while indexing or disabling competing browser defense add-ons.
+* **`"webNavigation"`:** records granular browser navigation timelines, mapping out the client's step-by-step redirection history in real time.
+
+---
+
+### 🔍 technical code deep-dive
+
+#### 1. dynamic user identity and connection profiling
+static analysis of the internal scripts unmasked a pre-configured data model engineered to actively bind personal user identification metadata to live network routing variables:
+
+```javascript
+createMixpanelCommonConnectionPropertiesValues = {
+    [EXT_USERNAME]: cVn.systemSettings.login_user_name,
+    [EXT_USEREMAIL]: cVn.systemSettings.email,
+    [EXT_VPNUSERNAME]: cVn.systemSettings.user_name,
+    [EXT_CLIENTID]: cVn.clientUserId
+};
+if (ServerAddress !== undefined) {
+    createMixpanelCommonConnectionPropertiesValues[EXT_SERVERADDRESS] = ServerAddress;
+}
+```
+
+* **analysis:** the framework outlines an explicit identity logging mechanism. the application parses the client profile memory to extract unencrypted personally identifiable information (pii)—including the user's active login name, account email address, and unique tracking client id. it anchors these data tags directly onto current proxy server addresses and ip destinations, creating an architectural blueprint to track individual client sessions.
+
+#### 2. total sandboxing elimination & marketplace fraud
+the application completely avoids the modern manifest v3 optional permissions model, forcing global `<all_urls>` background tracking to run the moment the add-on is enabled. marketplace metrics show exactly 1 user globally paired with a crushed 1.3-star reputation rating. the existence of latent identity harvesting modules and navigation hooks completely shatters the brand's storefront marketing claim of a strict "zero logs policy."
+
+---
+
+### 🛡 indicators of compromise (iocs)
+* **primary central control domain:** `circuitvpn.com` / `://circuitvpn.com`
+* **active surveillance signatures:** `login_user_name`, `email`, `EXT_SERVERIP`, `clientUserId`
+* **associated external tracking links:** `tawk.to/chat/652974686fcfe87d54b98d37/*`
+* **operational layout class:** un-sandboxed manifest v2 legacy intercept framework bundle.
 
 
 ---
