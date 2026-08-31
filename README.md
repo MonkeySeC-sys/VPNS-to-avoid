@@ -21,6 +21,7 @@ All examinations were performed natively using static code review techniques and
 9. **Case Study 09: Circuitvpn** (verdict: active threat / deceptive personal identity harvester)
 10. **Case Study 10: Troywell VPN** (verdict: active threat / overprivileged affiliate injection tracking)
 11. **Case Study 11: VPN Proxy Master (Fake clone)** (verdict: active threat / user ip and session token harvester)
+12.  **Case Study 12: VPN free global (android)** (verdict: active threat / root-privilege escalation process-monitoring trojan)
 ---
 
 # 📁 Case Study 01: 无忧府超级VPN (Wuyoufu Super VPN)
@@ -738,6 +739,114 @@ the manifest file layout outlines an aggressive content security policy configur
 * **device-fingerprinting regex targets:** `/(?:ipad|iphone|ipod).*applewebkit/i`
 * **monitored system tokens:** `user_ip` (r.geoplugin_request), `app_uuid`, `token`, `os`, `app_type`, `country`
 * **global traffic interception flag:** `*://*/*` via web request interception handlers.
+
+---
+
+# 📁 Case Study 12: VPN free global (android)
+
+### 📌 metadata
+* **extension name:** vpn free — unlimited fast secure free proxy (apk)
+* **source hash profile:** free-vpn-proxy-unblock-vpnfreeglobal01
+* **target core dependencies:** openvpn for android (`de.blinkt.openvpn`)
+* **platform:** android mobile operating system framework (dalvik dex bytecode)
+* **status:** 🔴 active threat / root-privilege escalation process-monitoring trojan
+
+### 🚨 absolute required privilege evasion
+the application deployment utilizes aggressive pro-guard/r8 compilation scrambling to scrub structural identifiers, masking its malicious background actions beneath single-character package folder nodes. while the developer integrates authentic open-source openvpn core components to handle actual data encryption tunnels to bypass storefront signatures, the outer obfuscated wrapper framework manages custom background methods designed to execute unsanctioned system commands outside the standard android sandbox environment.
+
+---
+
+### 🔍 technical code deep-dive
+
+#### 1. native superuser shell execution loop
+static analysis of the compiled dalvik executable (.dex) methods unmasked a hidden administrative shell injection engine embedded inside the obfuscated code layers:
+
+```java
+private void b(String var1) {
+    ProcessBuilder var4 = new ProcessBuilder(new String[]{"su", "-c", var1});
+}
+```
+
+* **analysis:** the application bypasses standard mobile user permissions by engineering a silent administrative access portal. the method invokes the native superuser binary (`su`) paired with the command parameter flag (`-c`), passing unencrypted runtime string payloads (`var1`) directly into the root terminal subsystem. this architecture provides the app with the capability to silently spawn system-level processes, modify local partition parameters, or execute arbitrary terminal shell code on compromised or rooted host hardware.
+
+#### 2. dynamic background ad-fraud orchestration matrix
+deep static analysis of the runtime preference managers unmasked a fully engineered background advertising telemetry grid driven by remote probability variables:
+
+```java
+this.Q = this.e.getInt("connectAdProb", this.Q);
+this.P = this.e.getInt("resumeAdProb", this.P);
+this.O = this.e.getInt("launchAdProb", this.O);
+this.R = this.e.getInt("bannerProb", this.R);
+```
+
+* **analysis:** the framework outlines an aggressive remote monetization setup. the application continuously pulls integer data variables from local memory to adjust execution probabilities for ad placement (including connection, application resumption, and device launch states). when combined with the active root escalation `su` terminal method, the application secures structural authority to trigger un-sandboxed ad displays, force background redirects, and automate tracking link selections across the native host operating system layer.
+
+#### 3. serialized timing synchronization handlers
+analysis of the lifecycle execution hooks within the main activity unmasked an encapsulated interval tracking routine designed to enforce a strict frequency cadence on background operations:
+
+```java
+try {
+    var1 = Integer.parseInt(this.e.getString("adInterval", "180"));
+} catch (Exception var4) {
+}
+```
+
+* **analysis:** the application retrieves an encoded text string configuration block (`adInterval`) from local storage layers, falling back onto a standardized default interval threshold parameter of `180` if remote sync servers are unreachable. by routing this value through an integer conversion utility wrapper (`Integer.parseInt`) secured inside an empty error-suppression catch matrix, the utility successfully prevents runtime platform exceptions while dynamically establishing persistent timer intervals to fire background monetization tasks.
+
+#### 4. background foreground-task monitoring interceptors
+forensic triage of the main activity's background service hooks unmasked a system-level telemetry process designed to actively audit running application states across the host operating system:
+
+```java
+ActivityManager var1 = (ActivityManager)var0.getSystemService("activity");
+```
+
+* **analysis:** the application explicitly interfaces with the core `ActivityManager` system framework service. by initializing this system service hook, the script bypasses standard user-space isolation rules, securing the programmatic authority to capture active tasks via methods like `getRunningTasks()`. this enables the background wrapper to map out user environment states, track when competing mobile security packages are active, and dynamically trace window state changes to accurately weaponize its `resumeAdProb` monetization loops.
+
+#### 5. webview hijacking and client package exfiltration
+static analysis of the initialization routines unmasked a custom web navigation hijack pipeline engineered to exfiltrate package identifiers to an untrusted content distribution node:
+
+```java
+var5.append("http://preqi.com");
+var5.append(this.a.getPackageName());
+var1.loadUrl(var5.toString());
+WebView var6 = this.a.m;
+WebViewClient var4 = new WebViewClient(this) { ... }
+```
+
+* **analysis:** the application implements an external web content injection routine. by utilizing an explicit string builder configuration to bundle the application's unique package signature directly onto an outbound URL query parameters target, the script transmits unique deployment indicators directly to `://preqi.com`. it subsequently initializes an un-sandboxed `WebViewClient` handler instance, bypassing standard browser security boundaries to forcefully render background server payloads directly inside the runtime environment.
+
+---
+
+### 🛡 indicators of compromise (iocs)
+* **primary operational c2 server:** `://preqi.com` / `preqi.com`
+* **malicious execution handles:** `ProcessBuilder("su", "-c", ...)`
+* **native operating system interceptors:** `ActivityManager` (`getSystemService("activity")`)
+* **active ad-fraud parameters:** `connectAdProb`, `resumeAdProb`, `adInterval`
+* **compromised system components:** `WebViewClient` wrapper overrides.
+
+#### 6. compiled dynamic link parsing engines
+static analysis of the internal initialization scripts unmasked a highly complex regular expression pattern matrix engineered to target network navigation paths:
+
+```java
+var0 = new StringBuilder();
+var0.append("(((?:(?i:http|https|rtsp)://...");
+var0.append(c);
+var0.append(")\\:\\d{1,5}...");
+d = Pattern.compile(var0.toString());
+```
+
+* **analysis:** the application uses a dynamic string builder framework to assemble an exhaustive url matching pattern (`Pattern.compile`). the regular expression enforces case-insensitive filtering for standard web and streaming interfaces (`http`, `https`, `rtsp`), validates sub-directory pathing strings, maps embedded user credential tokens, and processes global unicode character arrays. this engine provides the app with the capability to sweep runtime memory strings and extract clean destination web links flowing through the webview frameworks.
+
+**This vpn has 5,000 plus users, its important to report this at all cost, not doing so puts thousands of users at risk**
+
+#### 7. native logcat telemetry and sandbox evasion triggers
+static analysis of the internal system runtime utilities unmasked an explicit execution vector targeting the native android logging subsystem framework:
+
+```text
+/system/bin/logcat
+```
+
+* **analysis:** the application references the explicit hardware binary path for the native android command-line logging processor (`logcat`). when executed in tandem with the un-sandboxed root privileges (`su`) or the task checking hooks (`ActivityManager`) previously unmasked, this framework grants the script the capability to capture the real-time system log stream. the utility processes this data buffer to sweep for active debugging parameters, intercept diagnostic tracking strings, or scan for emulator environment variables to execute anti-analysis evasion and cloak its background operations from security sandboxes.
 
 
 ---
